@@ -19,12 +19,11 @@
         <v-layout row wrap>
           <v-flex xs12>
             <NgsFormular/>
-            <TableFrame :state="state" @tabStateWasChanged="state =$event"/>
           </v-flex>
         </v-layout>
         <v-layout row wrap>
           <v-flex xs12>
-           <TableDate :state="state" class="table"/>
+           <Table :state="state" class="table"/>
           </v-flex>
         </v-layout>
       </v-container>
@@ -39,8 +38,7 @@
 
 <script>
 import UserTab from './UserTab.vue'
-import TableDate from './TableDate.vue'
-import TableFrame from './TableFrame.vue'
+import Table from './Table.vue'
 import NgsFormular from './NgsFormular.vue'
 
 
@@ -49,8 +47,7 @@ import NgsFormular from './NgsFormular.vue'
     name: 'Layout',
   components: {
     UserTab,
-    TableDate,
-    TableFrame,
+    Table,
     NgsFormular,
   },
 

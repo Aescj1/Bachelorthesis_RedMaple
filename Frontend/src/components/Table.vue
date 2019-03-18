@@ -1,292 +1,161 @@
 <template>
-  <div class="tableView">
-    <v-toolbar 
-    flat color="#a3a5a8"
-    tabs
-    
-    >
-      <v-spacer></v-spacer>
-      <v-text-field class="text-xs-right" v-model="search" append-icon="search" label="Search" single-line></v-text-field>
-      <v-divider
-        class="mx-2"
-        inset
-        vertical
-      ></v-divider>
-        <v-tabs
-        slot="extension"
-        v-model="tabs"
-        centered
-        color="transparent"
-        slider-color="white"
-      >
-        <v-tab
-          v-for="n in 3"
-          :key="n"
-        >
-          Item {{ n }}
-        </v-tab>
-      </v-tabs>
+  <v-data-table
+    :headers="renderHeader()"
+    :items="patients"
+    class="elevation-1"
+    item-key="bactNr"
+    :search="search"
+    must-sort
+    v-bind:pagination.sync="pagination"
 
-      <v-dialog v-model="dialog" max-width="700px">
-        <v-btn slot="activator" color="primary" dark class="mb-2">New Item</v-btn>
-        <v-card>
-          <v-card-title>
-            <span class="headline">{{ formTitle }}</span>
-          </v-card-title>
 
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                    <v-flex> 
-                  <v-text-field v-model="editedPatient.bactNr" label="Bact Nummer"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.altId" label="altId"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.pathogen" label="pathogen (g)"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.patName" label="Patient Name"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.birthdate" label="birthdate"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.entry" label="entry"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.abnahme" label="abnahme"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.sender" label="sender"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.station" label="station"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.editing" label="editing"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.material" label="material"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.ngsProject" label="ngsProject"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.dnaPrepDate" label="dnaPrepDate"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.dnaKonz" label="dnaKonz"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.dnaVisum" label="dnaVisum"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.runNr" label="runNr"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.ngsNr" label="ngsNr"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.libType" label="libType"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.libDate" label="libDate"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.libVisum" label="libVisum"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.seqDate" label="seqDate"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.ngsMachine" label="ngsMachine"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.qualityVisum" label="qualityVisum"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.infOldList" label="infOldList"></v-text-field>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedPatient.pubID" label="pubID"></v-text-field>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
 
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-toolbar>
-        <v-tabs-items v-model="tabs">
-      <v-tab-item
-        v-for="n in 3"
-        :key="n"
-      >
-    <v-data-table
-      :headers="headers"
-      :items="patients"
-      :search="search"
-      hide-actions
-      class="elevation-1"
-    >
-      <template slot="items" slot-scope="props" class="dataSet">
-
-        <td class="text-xs-left">{{ props.item.bactNr }}</td>
-        <td class="text-xs-center">{{ props.item.altId }}</td>
-        <td class="text-xs-center">{{ props.item.pathogen }}</td>
-        <td class="text-xs-center">{{ props.item.patName }}</td>
-        <td class="text-xs-center">{{ props.item.birthdate }}</td>
-        <td class="text-xs-center">{{ props.item.entry }}</td>
-        <td class="text-xs-center">{{ props.item.abnahme }}</td>
-        <td class="text-xs-center">{{ props.item.sender }}</td>
-        <td class="text-xs-center">{{ props.item.station }}</td>
-        <td class="text-xs-center">{{ props.item.editing }}</td>
-        <td class="text-xs-center">{{ props.item.ngsProject }}</td>
-        <td class="text-xs-center">{{ props.item.dnaPrepDate }}</td>
-        <td class="text-xs-center">{{ props.item.dnaKonz }}</td>
-        <td class="text-xs-center">{{ props.item.dnaVisum }}</td>
-        <td class="text-xs-center">{{ props.item.runNr }}</td>
-        <td class="text-xs-center">{{ props.item.libDate }}</td>
-        <td class="text-xs-center">{{ props.item.libVisum }}</td>
-        <td class="text-xs-center">{{ props.item.seqDate }}</td>
-        <td class="text-xs-center">{{ props.item.ngsMachine }}</td>
-        <td class="text-xs-center">{{ props.item.qualityVisum }}</td>
-        <td class="text-xs-center">{{ props.item.infOldList }}</td>
-        <td class="text-xs-center">{{ props.item.pubID }}</td>
-        <td class="text-xs-center">{{ props.item.birthdate }}</td>
-        <td class="text-xs-center">{{ props.item.birthdate }}</td>
-        <td class="text-xs-center">{{ props.item.birthdate }}</td>
-        <td class="justify-center layout px-0">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(props.item)"
-          >
-            edit
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(props.item)"
-          >
-            delete
-          </v-icon>
-        </td>
+  >
+<template slot="items" slot-scope="props">
+   <tr @click="props.expanded = !props.expanded">
+        <!--The v-if statements checks the state for the tabs and sets the information accordingly !-->
+        <td class="justify-center layout px-0" ></td>
+        <td class="text-xs-left" v-if="!headers[1].hide">{{props.item.bactNr}}</td> 
+        <td v-if="!headers[2].hide" class="text-xs-center">{{ props.item.altId }}</td>
+        <td v-if="!headers[3].hide" class="text-xs-center">{{ props.item.priority }}</td>
+        <td v-if="!headers[4].hide" class="text-xs-center">{{ props.item.abbreviation }}</td>
+        <td v-if="!headers[5].hide" class="text-xs-center">{{ props.item.lastName }}</td>
+        <td v-if="!headers[6].hide" class="text-xs-center">{{ props.item.birthdate }}</td>
+        <td v-if="!headers[7].hide" class="text-xs-center">{{ props.item.entry }}</td>
+        <td v-if="!headers[8].hide" class="text-xs-center">{{ props.item.abnahmeDatum }}</td>
+        <td v-if="!headers[9].hide" class="text-xs-center">{{ props.item.einsender }}</td>
+        <td v-if="!headers[10].hide" class="text-xs-center">{{ props.item.station }}</td>
+        <td v-if="!headers[11].hide" class="text-xs-center">{{ props.item.bearbeitung }}</td>
+        <td v-if="!headers[12].hide" class="text-xs-center">{{ props.item.material }}</td>
+        <td v-if="!headers[13].hide" class="text-xs-center">{{ props.item.ngsProject }}</td>
+        <td v-if="!headers[14].hide" class="text-xs-center">{{ props.item.datumPrep }}</td>
+        <td v-if="!headers[15].hide" class="text-xs-center">{{ props.item.konzentration }}</td>
+        <td v-if="!headers[16].hide" class="text-xs-center">{{ props.item.visumDna }}</td>
+        <td v-if="!headers[17].hide" class="text-xs-center">{{ props.item.runNr }}</td>
+        <td v-if="!headers[18].hide" class="text-xs-center">{{ props.item.runProbeNr }}</td>
+        <td v-if="!headers[19].hide" class="text-xs-center">{{ props.item.libraryTyp }}</td>
+        <td v-if="!headers[20].hide" class="text-xs-center">{{ props.item.libraryDatum }}</td>
+        <td v-if="!headers[21].hide" class="text-xs-center">{{ props.item.libraryVisum }}</td>
+        <td v-if="!headers[22].hide" class="text-xs-center">{{ props.item.seqDatum }}</td>
+        <td v-if="!headers[23].hide" class="text-xs-center">{{ props.item.modalität }}</td>
+        <td v-if="!headers[24].hide" class="text-xs-center">{{ props.item.seqVisum }}</td>
+        <td v-if="!headers[25].hide" class="text-xs-center">{{ props.item.datenqualVisum }}</td>
+        <td v-if="!headers[26].hide" class="text-xs-center">{{ props.item.publicIdentifier }}</td>
+      </tr>
       </template>
-      <template slot="no-data">
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
-      </template>
-       <v-alert slot="no-results" :value="true" color="error" icon="warning">
-        Your search for "{{ search }}" found no results.
-      </v-alert>
-    </v-data-table>
-     </v-tab-item>
-    </v-tabs-items>
-        <div class="text-xs-center pt-2">
-      <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
-    </div>
-  </div>
+      <template slot="expand" slot-scope="props">
+      <v-card class="text-xs-center" flat>
+        <v-card-text  style="background-color:grey"><b>Current BactNr.: </b>{{props.item.bactNr}} <b>| Current NGS Project:</b> {{props.item.ngsProject}}</v-card-text>
+      </v-card>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
+import {bus} from '../main.js';
+//import axios from 'axios';
+
   export default {
+    props:{
+      state:Number
+    },
     data: () => ({
-      dialog: false,
-      pagination: {},
+      pagination : {'sortBy': 'priority', 'ascending': true, 'rowsPerPage': 10},
+      headerindex:0,
+      headers: [
+        { class:'dataSet',property: 3, text: 'Bact Nr-', sortable: true, value: 'bactNr', hide: false},
+        { property: 3, text: 'Alternative ID', value: 'altId', hide: false },
+        { property: 3,text: 'priority', value: 'priority' , hide: false},
+        { property: 3,text: 'Pathogen', value: 'abbreviation' , hide: false},
+        { class:'dataSet',property: 3,text: 'Patient', value: 'lastName' , hide: false},
+        { property: 3,text: 'Geburtsdatum', value: 'birthdate', hide: false },
+        { property: 3,text: 'Eingang', value: 'entry', sortable: false, hide: false },
+        { property: 3,text: 'abnahmeDatum', value: 'abnahmeDatum', hide: false },
+        { property: 3,text: 'Einsender', value: 'einsender', hide: false },
+        { property: 3,text: 'Station', value: 'station', hide: false },
+        { property: 3,text: 'Bearbeitung', value: 'bearbeitung', hide: false },
+        { property: 3,text: 'Material', value: 'material', hide: false },
+        { property: 3,text: 'NGS-Projekt', value: 'ngsProject', hide: false },
+        { property: 2,text: 'Datum DNA-Prep', value: 'datumPrep', hide: false },
+        { property: 2,text: 'DNA-Konz (ng/ul)', value: 'konzentration', hide: false },
+        { property: 2,text: 'Visum DNA', value: 'visumDna', hide: false },
+        { property: 0,text: 'Run Nummer', value: 'runNr', hide: false },
+        { property: 0,text: 'NGS Nummer', value: 'runProbeNr', hide: false },
+        { property: 0,text: 'Library Typ', value: 'libraryTyp', hide: false },
+        { property: 0,text: 'Datum Library', value: 'libraryDatum', hide: false },
+        { property: 0,text: 'Visum Library', value: 'libraryVisum', hide: false },
+        { property: 0,text: 'Datum Sequenzierung', value: 'seqDatum', hide: false },
+        { property: 0,text: 'NGS Gerät', value: 'modalität' , hide: false},
+        { property: 0,text: 'Visum Datenqualität', value: 'datenqualVisum' , hide: false},
+        { property: 0,text: 'Information alte Liste', value: 'infOldList' , hide: false},
+        { property: 0,text: 'Public identifier', value: 'publicIdentifier' , hide: false},
+      ],
       search:'',
       tabs: null,
-      headers: [
-        {class:'dataSet',text: 'Bact Nr-', sortable: true, value: 'bactNr'},
-        { text: 'Alternative ID', value: 'altId' },
-        {text: 'Pathogen', value: 'pathogen' },
-        {class:'dataSet', text: 'Patient', value: 'patName' },
-        { text: 'Geburtsdatum', value: 'birthdate' },
-        { text: 'Eingang', value: 'entry', sortable: false },
-        { text: 'Abnahme', value: 'abnahme' },
-        { text: 'Einsender', value: 'sender' },
-        { text: 'Station', value: 'station' },
-        { text: 'Bearbeitung', value: 'editing' },
-        { text: 'Material', value: 'material' },
-        { text: 'NGS-Projekt', value: 'ngsProject' },
-        { text: 'Datum DNA-Prep', value: 'dnaPrepDate' },
-        { text: 'DNA-Konz (ng/ul)', value: 'dnaKonz' },
-        { text: 'Visum DNA', value: 'dnaVisum' },
-        { text: 'Run Nummer', value: 'runNr' },
-        { text: 'NGS Nummer', value: 'ngsNr' },
-        { text: 'Library Typ', value: 'libType' },
-        { text: 'Datum Library', value: 'libDate' },
-        { text: 'Visum Library', value: 'libVisum' },
-        { text: 'Datum Sequenzierung', value: 'seqDate' },
-        { text: 'NGS Gerät', value: 'ngsMachine' },
-        { text: 'Visum Datenqualität', value: 'qualityVisum' },
-        { text: 'Information alte Liste', value: 'infOldList' },
-        { text: 'Public identifier', value: 'pubID' },
-      ],
-      patients: [],
+    patients: [],
       editedIndex: -1,
       editedPatient: {
         bactNr: '',
         infOldList: '',
         altId: '',
-        pathogen: '',
+        priority:'',
+        abbreviation: '',
+        lastName: '',
+        firstName:'',
         patName: '',
         birthdate: '',
         entry: '',
-        abnahme: '',
-        sender: '',
+        abnahmeDatum: '',
+        einsender: '',
         station: '',
-        editing: '',
+        bearbeitung: '',
         material: '',
         ngsProject: '',
-        dnaPrepDate: '',
-        dnaKonz: '',
-        dnaVisum: '',
+        datumPrep: '',
+        konzentration: '',
+        visumDna: '',
         runNr: '',
-        ngsNr: '',
-        libType: '',
-        libDate: '',
-        libVisum: '',
-        seqDate: '',
-        ngsMachine: '',
-        qualityVisum: '',
-        pubID: '',
+        runProbeNr: '',
+        libraryTyp: '',
+        libraryDatum: '',
+        libraryVisum: '',
+        seqDatum: '',
+        modalität: '',
+        datenqualVisum: '',
+        publicIdentifier: '',
       },
-      defaultPatient: {
+       defaultPatient: {
         bactNr: '',
         infOldList: '',
         altId: '',
-        pathogen: '',
-        patName: '',
+        priority:'',
+        abbreviation: '',
+        lastName: '',
+        firstName:'',
         birthdate: '',
         entry: '',
-        abnahme: '',
-        sender: '',
+        abnahmeDatum: '',
+        einsender: '',
         station: '',
-        editing: '',
+        bearbeitung: '',
         material: '',
         ngsProject: '',
-        dnaPrepDate: '',
-        dnaKonz: '',
-        dnaVisum: '',
+        datumPrep: '',
+        konzentration: '',
+        visumDna: '',
         runNr: '',
-        ngsNr: '',
-        libType: '',
-        libDate: '',
-        libVisum: '',
-        seqDate: '',
-        ngsMachine: '',
-        qualityVisum: '',
-        pubID: '',
+        runProbeNr: '',
+        libraryTyp: '',
+        libraryDatum: '',
+        libraryVisum: '',
+        seqDatum: '',
+        modalität: '',
+        seqVisum:'',
+        datenqualVisum: '',
+        publicIdentifier: '',
       }
     }),
-
-    computed: {
+       computed: {
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
       },
@@ -297,471 +166,48 @@
 
         return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
       }
-    },
-
-    watch: {
-      dialog (val) {
-        val || this.close()
-      }
-    },
+    }, 
 
     created () {
-      this.initialize()
+      bus.$on('newPatientCreated', (data) =>{
+      this.editedPatient = data;
+      this.patients.push(this.editedPatient)
+      
+      });
+      bus.$on('patientHasChanged', (data) =>{
+      this.editedPatient = data;
+
+      });
+      bus.$on('editedIndex', (data) =>{
+      this.editedIndex = data;
+      this.patients.splice(this.editedIndex,1,this.editedPatient)
+      });
+      bus.$on('searchChanged', (data) =>{
+      this.search = data;
+      });
+      bus.$on('hideHeader', (data) =>{
+      this.headers[this.headerindex].hide = !this.headers[this.headerindex].hide
+      console.log("this is the receiving index:"+this.headerindex+"; this is the data"+data+"; this is the headerindex"+this.headerindex)
+      });
     },
+
 
     methods: {
       initialize () {
-        this.patients = [
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },
-          {
-        bactNr: '100007-18',
-        infOldList: '2342342',
-        altId: 'ID-001',
-        pathogen: 'ecoli',
-        patName: 'Donald Truck',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahme: '14.11.2018',
-        sender: 'Spital Basel',
-        station: 'Intensiv',
-        editing: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '18.11.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '00542',
-        ngsNr: '4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.11.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00001',
-          },         
-        ]
       },
-
-      editItem (item) {
-        this.editedIndex = this.patients.indexOf(item)
-        this.editedPatient = Object.assign({}, item)
-        this.dialog = true
+      /*This method grabs all the headers in header[] and checks its property, compares it with
+      the state from the tab (which get provided by the Tableframe) and sets the tableheaders
+      accordingly */
+      renderHeader(){
+        return this.headers.filter(h => (h.property>= this.state)).filter(h => h.hide == false)
       },
-
-      deleteItem (item) {
-        const index = this.patients.indexOf(item)
-        confirm('Are you sure you want to delete this dataset?') && this.patients.splice(index, 1)
-      },
-
-      close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedPatient = Object.assign({}, this.Patient)
-          this.editedIndex = -1
-        }, 300)
-      },
-
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.patients[this.editedIndex], this.editedPatient)
-        } else {
-          this.patients.push(this.editedPatient)
-        }
-        this.close()
-      }
     }
   }
-</script>
+  </script>
 
 <style>
-.elevation1{
-  height:90%;
-  background-color:#424242;
-  overflow-y:auto !important;
-}
-
 .dataSet{
   max-height: 50px;
   min-width: 130px;
 }
-
-
 </style>

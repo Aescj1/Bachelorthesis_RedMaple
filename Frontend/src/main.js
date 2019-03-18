@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import './plugins/vuetify'
 import VueRouter from 'vue-router'
-import Layout from './components/Layout.vue'
 import 'babel-polyfill'
 import Home from './Home.vue'
 import {routes} from './routes'

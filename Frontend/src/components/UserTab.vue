@@ -1,3 +1,4 @@
+
 <template>
   <v-card >
       <v-toolbar flat class="transparent, user_status">
@@ -54,7 +55,7 @@
             </v-list-tile>
           </v-list-group>
 
-          <v-list-tile @click="">
+          <v-list-tile>
           <v-list-tile-action>
             <v-icon>group</v-icon>
           </v-list-tile-action>
@@ -115,7 +116,7 @@ import {bus} from '../main.js'
     ),
     methods:{
       logout(){
-                  this.$router.push('/')
+        this.$router.push('/')
       },
       changeTheme(){
         this.dark = !this.dark
@@ -123,8 +124,9 @@ import {bus} from '../main.js'
 
       },
       hideHeader(item){
-        this.headers[item.index-1].hide = !this.headers[item.index-1].hide 
+        this.headers[item.index].hide = !this.headers[item.index].hide 
         bus.$emit('hideHeader',item.index)
+        console.log("this is the index:"+item.index)
       }
     }
   }

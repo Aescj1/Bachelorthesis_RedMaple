@@ -1,3 +1,4 @@
+<!-- Deprecated Was used for RedMaple1.0
 <template>
   <div class="tableView">
     <v-toolbar 
@@ -80,3 +81,4 @@ import {bus} from '../main.js'
 overflow:auto;
 }
   </style>
+  !-->
