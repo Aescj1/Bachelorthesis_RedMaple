@@ -1,13 +1,12 @@
-
+<!-- This is the View for the UserTab that extends when clicking the hamburger symbol on the top left. !-->
 <template>
   <v-card >
       <v-toolbar flat class="transparent, user_status">
         <v-list class="pa-0">
           <v-list-tile avatar >
             <v-list-tile-avatar >
-              <img src="https://randomuser.me/api/portraits/men/85.jpg" class="user-image"  >
+              <img src="../assets/User.jpg" class="user-image"  >
             </v-list-tile-avatar>
-
             <v-list-tile-content class="mt-5">
               <v-list-tile-title class="text-md-center"><b>Admin User</b></v-list-tile-title>
             </v-list-tile-content>
@@ -25,33 +24,48 @@
             <v-list-tile-title>Change Theme</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-      
-          <v-list-group
-            prepend-icon="remove_red_eye"
-            no-action
-          >
-            <v-list-tile slot="activator">
-              <v-list-tile-title>Actions</v-list-tile-title>
-            </v-list-tile>
 
+        <v-list-tile @click="viewWorkflow">
+          <v-list-tile-action>
+            <v-icon>work</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Workflow</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+
+          <v-list-tile @click="viewTable">
+          <v-list-tile-action>
+            <v-icon>format_list_numbered</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Datatable</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+
+      <!-- Defines the function groupd "Actions" !-->
+        <v-list-group
+          prepend-icon="remove_red_eye"
+          no-action
+          v-if="this.$route.path == '/table'"
+        >
+          <v-list-tile slot="activator">
+            <v-list-tile-title>Actions</v-list-tile-title>
+          </v-list-tile>
             <v-list-tile 
             v-for="item in headers"
             :key="item.value"
-            @click="hideHeader(item)"
+            @click="hideHeader(item)" 
+            v-model="item.show"
             >
             <v-list-tile-action>
               <v-switch
+                readonly
+                v-model="item.show"
                 color= red
+                :label="item.text"
               ></v-switch>
             </v-list-tile-action>
-
-              <v-list-tile-content 
-              @click.prevent="widgets = !widgets"
-              >
-                <v-list-tile-title>
-                  {{item.text}}
-                  </v-list-tile-title>
-              </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
 
@@ -81,52 +95,63 @@
 import {bus} from '../main.js'
 
   export default {
-      props:['dark'],
 
     data: ()=>({
+      /**This is the Information for the Toggle Buttons */
       headers:[
-        {  index:1, text: 'Bact Nr-', sortable: true, value: 'bactNr', hide: false},
-        {  index:2, text: 'Alternative ID', value: 'altId', hide: false },
-        {  index:3, text: 'Priority', value: 'priority', hide: false },
-        {  index:4, text: 'Pathogen', value: 'pathogen' , hide: false},
-        {  index:5, text: 'Patient', value: 'patName' , hide: false},
-        {  index:6, text: 'Geburtsdatum', value: 'birthdate', hide: false },
-        {  index:7, text: 'Eingang', value: 'entry', sortable: false, hide: false },
-        {  index:8, text: 'Abnahme', value: 'abnahme', hide: false },
-        {  index:9, text: 'Einsender', value: 'sender', hide: false },
-        {  index:10, text: 'Station', value: 'station', hide: false },
-        {  index:11, text: 'Bearbeitung', value: 'editing', hide: false },
-        {  index:12, text: 'Material', value: 'material', hide: false },
-        {  index:13, text: 'NGS-Projekt', value: 'ngsProject', hide: false },
-        {  index:14, text: 'Datum DNA-Prep', value: 'dnaPrepDate', hide: false },
-        {  index:15, text: 'DNA-Konz (ng/ul)', value: 'dnaKonz', hide: false },
-        {  index:16, text: 'Visum DNA', value: 'dnaVisum', hide: false },
-        {  index:17, text: 'Run Nummer', value: 'runNr', hide: false },
-        {  index:18, text: 'NGS Nummer', value: 'ngsNr', hide: false },
-        {  index:19, text: 'Library Typ', value: 'libType', hide: false },
-        {  index:20, text: 'Datum Library', value: 'libDate', hide: false },
-        {  index:21, text: 'Visum Library', value: 'libVisum', hide: false },
-        {  index:22, text: 'Datum Sequenzierung', value: 'seqDate', hide: false },
-        {  index:23, text: 'NGS Gerät', value: 'ngsMachine' , hide: false},
-        {  index:24, text: 'Visum Datenqualität', value: 'qualityVisum' , hide: false},
-        {  index:25, text: 'Information alte Liste', value: 'infOldList' , hide: false},
-        {  index:26, text: 'Public identifier', value: 'pubID' , hide: false},
-      ]
+        {  index:0, text: 'Bact Nr-', show:true},
+        {  index:1, text: 'Alternative ID', show:false },
+        {  index:2, text: 'Priority', show:true},
+        {  index:3, text: 'Pathogen', show:true},
+        {  index:4, text: 'Patient', show:true},
+        {  index:5, text: 'Geburtsdatum', show:true},
+        {  index:6, text: 'Eingang', show:true},
+        {  index:7, text: 'Abnahme', show:false},
+        {  index:8, text: 'Einsender', show:true},
+        {  index:9, text: 'Station', show:false},
+        {  index:10, text: 'Bearbeitung', show:false},
+        {  index:11, text: 'Material', show:true},
+        {  index:12, text: 'NGS-Projekt', show:true},
+        {  index:13, text: 'Datum DNA-Prep', show:false},
+        {  index:14, text: 'DNA-Konz (ng/ul)', show:false},
+        {  index:15, text: 'Visum DNA', show:false},
+        {  index:16, text: 'Run Nummer', show:true},
+        {  index:17, text: 'NGS Nummer', show:true},
+        {  index:18, text: 'Library Typ', show:true},
+        {  index:19, text: 'Datum Library', show:false},
+        {  index:20, text: 'Visum Library', show:false},
+        {  index:21, text: 'Datum Sequenzierung', show:false},
+        {  index:22, text: 'NGS Gerät', show:true},
+        {  index:23, text: 'Visum Datenqualität', show:false},
+        {  index:24, text: 'Information alte Liste', show:false},
+        {  index:25, text: 'Public identifier', show:false},
+      ],
+      dark:true,
       }
     ),
     methods:{
       logout(){
         this.$router.push('/')
+        bus.$emit('drawerReset', false);
       },
+
+      viewWorkflow(){
+        this.$router.push('/workflow')
+      },
+
+      viewTable(){
+        this.$router.push('/table')
+      },
+
       changeTheme(){
         this.dark = !this.dark
-        bus.$emit('themeWasChanged',this.dark);
-
+        bus.$emit('changeTheme',this.dark);
       },
+
+      /** Function that sends the information of the toggle button to the Table View and deactivates the chosen column */
       hideHeader(item){
-        this.headers[item.index].hide = !this.headers[item.index].hide 
+        item.show = !item.show
         bus.$emit('hideHeader',item.index)
-        console.log("this is the index:"+item.index)
       }
     }
   }

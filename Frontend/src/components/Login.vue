@@ -1,3 +1,4 @@
+<!-- This is the Login View, which is diesplayed at the beginning of calling the website !-->
 <template>
     <v-content class="backgroundholder" >
         <v-container fluid fill-height>
@@ -65,7 +66,7 @@
       submit () {
         if ((this.$refs.form.validate())&& (this.name == 'User')) {
           // Native form submission is not yet supported
-          this.$router.push('/layout')
+          this.$router.push('/table')
           }
         },
         clear () {
@@ -95,12 +96,6 @@ color:black !important;
 width: 30rem;
 display:inline-block;
 }
-.backgroundholder{
-    background-image: url("../assets/background3.jpg");
-  background-size: cover;
-  background-position: 50% 50%;
-}
-
 .bottomLogin{
     background-color: whitesmoke;
 }

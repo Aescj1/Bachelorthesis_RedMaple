@@ -1,4 +1,17 @@
+<!-- This is the View for the table! Important: it is read only!!-->
 <template>
+  <v-card>
+    <v-card-title>
+      <v-spacer></v-spacer>
+      <v-text-field
+        color=red
+        v-model="search"
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
   <v-data-table
     :headers="renderHeader()"
     :items="patients"
@@ -7,48 +20,46 @@
     :search="search"
     must-sort
     v-bind:pagination.sync="pagination"
-
-
-
   >
-<template slot="items" slot-scope="props">
-   <tr @click="props.expanded = !props.expanded">
+    <template slot="items" slot-scope="props">
+      <tr @click="props.expanded = !props.expanded">
         <!--The v-if statements checks the state for the tabs and sets the information accordingly !-->
-        <td class="justify-center layout px-0" ></td>
-        <td class="text-xs-left" v-if="!headers[1].hide">{{props.item.bactNr}}</td> 
-        <td v-if="!headers[2].hide" class="text-xs-center">{{ props.item.altId }}</td>
-        <td v-if="!headers[3].hide" class="text-xs-center">{{ props.item.priority }}</td>
-        <td v-if="!headers[4].hide" class="text-xs-center">{{ props.item.abbreviation }}</td>
-        <td v-if="!headers[5].hide" class="text-xs-center">{{ props.item.lastName }}</td>
-        <td v-if="!headers[6].hide" class="text-xs-center">{{ props.item.birthdate }}</td>
-        <td v-if="!headers[7].hide" class="text-xs-center">{{ props.item.entry }}</td>
-        <td v-if="!headers[8].hide" class="text-xs-center">{{ props.item.abnahmeDatum }}</td>
-        <td v-if="!headers[9].hide" class="text-xs-center">{{ props.item.einsender }}</td>
-        <td v-if="!headers[10].hide" class="text-xs-center">{{ props.item.station }}</td>
-        <td v-if="!headers[11].hide" class="text-xs-center">{{ props.item.bearbeitung }}</td>
-        <td v-if="!headers[12].hide" class="text-xs-center">{{ props.item.material }}</td>
-        <td v-if="!headers[13].hide" class="text-xs-center">{{ props.item.ngsProject }}</td>
-        <td v-if="!headers[14].hide" class="text-xs-center">{{ props.item.datumPrep }}</td>
-        <td v-if="!headers[15].hide" class="text-xs-center">{{ props.item.konzentration }}</td>
-        <td v-if="!headers[16].hide" class="text-xs-center">{{ props.item.visumDna }}</td>
-        <td v-if="!headers[17].hide" class="text-xs-center">{{ props.item.runNr }}</td>
-        <td v-if="!headers[18].hide" class="text-xs-center">{{ props.item.runProbeNr }}</td>
-        <td v-if="!headers[19].hide" class="text-xs-center">{{ props.item.libraryTyp }}</td>
-        <td v-if="!headers[20].hide" class="text-xs-center">{{ props.item.libraryDatum }}</td>
-        <td v-if="!headers[21].hide" class="text-xs-center">{{ props.item.libraryVisum }}</td>
-        <td v-if="!headers[22].hide" class="text-xs-center">{{ props.item.seqDatum }}</td>
-        <td v-if="!headers[23].hide" class="text-xs-center">{{ props.item.modalität }}</td>
-        <td v-if="!headers[24].hide" class="text-xs-center">{{ props.item.seqVisum }}</td>
-        <td v-if="!headers[25].hide" class="text-xs-center">{{ props.item.datenqualVisum }}</td>
-        <td v-if="!headers[26].hide" class="text-xs-center">{{ props.item.publicIdentifier }}</td>
+        <td class="text-xs-left" v-if="headers[0].show"> {{ props.item.bactNr }}</td> 
+        <td v-if="headers[1].show" class="text-xs-center">{{ props.item.altId }}</td>
+        <td v-if="headers[2].show" class="text-xs-center">{{ props.item.priority }}</td>
+        <td v-if="headers[3].show" class="text-xs-center">{{ props.item.abbreviation }}</td>
+        <td v-if="headers[4].show" class="text-xs-center"> {{ props.item.lastName }}</td>
+        <td v-if="headers[5].show" class="text-xs-center">{{ props.item.birthdate }}</td>
+        <td v-if="headers[6].show" class="text-xs-center">{{ props.item.entry }}</td>
+        <td v-if="headers[7].show" class="text-xs-center">{{ props.item.abnahmeDatum }}</td>
+        <td v-if="headers[8].show" class="text-xs-center">{{ props.item.einsender }}</td>
+        <td v-if="headers[9].show" class="text-xs-center">{{ props.item.station }}</td>
+        <td v-if="headers[10].show" class="text-xs-center">{{ props.item.bearbeitung }}</td>
+        <td v-if="headers[11].show" class="text-xs-center">{{ props.item.material }}</td>
+        <td v-if="headers[12].show" class="text-xs-center">{{ props.item.ngsProject }}</td>
+        <td v-if="headers[13].show" class="text-xs-center">{{ props.item.datumPrep }}</td>
+        <td v-if="headers[14].show" class="text-xs-center">{{ props.item.konzentration }}</td>
+        <td v-if="headers[15].show" class="text-xs-center">{{ props.item.visumDna }}</td>
+        <td v-if="headers[16].show" class="text-xs-center">{{ props.item.runNr }}</td>
+        <td v-if="headers[17].show" class="text-xs-center">{{ props.item.runProbeNr }}</td>
+        <td v-if="headers[18].show" class="text-xs-center">{{ props.item.libraryTyp }}</td>
+        <td v-if="headers[19].show" class="text-xs-center">{{ props.item.libraryDatum }}</td>
+        <td v-if="headers[20].show" class="text-xs-center">{{ props.item.libraryVisum }}</td>
+        <td v-if="headers[21].show" class="text-xs-center">{{ props.item.seqDatum }}</td>
+        <td v-if="headers[22].show" class="text-xs-center">{{ props.item.modalität }}</td>
+        <td v-if="headers[23].show" class="text-xs-center">{{ props.item.seqVisum }}</td>
+        <td v-if="headers[24].show" class="text-xs-center">{{ props.item.datenqualVisum }}</td>
+        <td v-if="headers[25].show" class="text-xs-center">{{ props.item.publicIdentifier }}</td>
       </tr>
-      </template>
-      <template slot="expand" slot-scope="props">
+    </template>
+
+    <template slot="expand" slot-scope="props">
       <v-card class="text-xs-center" flat>
         <v-card-text  style="background-color:grey"><b>Current BactNr.: </b>{{props.item.bactNr}} <b>| Current NGS Project:</b> {{props.item.ngsProject}}</v-card-text>
       </v-card>
     </template>
   </v-data-table>
+  </v-card>
 </template>
 
 <script>
@@ -56,46 +67,154 @@ import {bus} from '../main.js';
 //import axios from 'axios';
 
   export default {
-    props:{
-      state:Number
-    },
     data: () => ({
-      pagination : {'sortBy': 'priority', 'ascending': true, 'rowsPerPage': 10},
+      bufferresults:"",
+      pagination : {'sortBy': 'priority', 'ascending': true, 'rowsPerPage': 25},
       headerindex:0,
       headers: [
-        { class:'dataSet',property: 3, text: 'Bact Nr-', sortable: true, value: 'bactNr', hide: false},
-        { property: 3, text: 'Alternative ID', value: 'altId', hide: false },
-        { property: 3,text: 'priority', value: 'priority' , hide: false},
-        { property: 3,text: 'Pathogen', value: 'abbreviation' , hide: false},
-        { class:'dataSet',property: 3,text: 'Patient', value: 'lastName' , hide: false},
-        { property: 3,text: 'Geburtsdatum', value: 'birthdate', hide: false },
-        { property: 3,text: 'Eingang', value: 'entry', sortable: false, hide: false },
-        { property: 3,text: 'abnahmeDatum', value: 'abnahmeDatum', hide: false },
-        { property: 3,text: 'Einsender', value: 'einsender', hide: false },
-        { property: 3,text: 'Station', value: 'station', hide: false },
-        { property: 3,text: 'Bearbeitung', value: 'bearbeitung', hide: false },
-        { property: 3,text: 'Material', value: 'material', hide: false },
-        { property: 3,text: 'NGS-Projekt', value: 'ngsProject', hide: false },
-        { property: 2,text: 'Datum DNA-Prep', value: 'datumPrep', hide: false },
-        { property: 2,text: 'DNA-Konz (ng/ul)', value: 'konzentration', hide: false },
-        { property: 2,text: 'Visum DNA', value: 'visumDna', hide: false },
-        { property: 0,text: 'Run Nummer', value: 'runNr', hide: false },
-        { property: 0,text: 'NGS Nummer', value: 'runProbeNr', hide: false },
-        { property: 0,text: 'Library Typ', value: 'libraryTyp', hide: false },
-        { property: 0,text: 'Datum Library', value: 'libraryDatum', hide: false },
-        { property: 0,text: 'Visum Library', value: 'libraryVisum', hide: false },
-        { property: 0,text: 'Datum Sequenzierung', value: 'seqDatum', hide: false },
-        { property: 0,text: 'NGS Gerät', value: 'modalität' , hide: false},
-        { property: 0,text: 'Visum Datenqualität', value: 'datenqualVisum' , hide: false},
-        { property: 0,text: 'Information alte Liste', value: 'infOldList' , hide: false},
-        { property: 0,text: 'Public identifier', value: 'publicIdentifier' , hide: false},
+        { class:'dataSet', text: 'Bact Nr-', sortable: true, value: 'bactNr', show: true},
+        { text: 'Alternative ID', value: 'altId', show: false },
+        { text: 'priority', value: 'priority' , show: true},
+        { text: 'Pathogen', value: 'abbreviation' , show: true},
+        { class:'dataSet',text: 'Patient', value: 'lastName' , show: true},
+        { text: 'Geburtsdatum', value: 'birthdate', show: true },
+        { text: 'Eingang', value: 'entry', sortable: false, show: true },
+        { text: 'Abnahmedatum', value: 'abnahmeDatum', show: false },
+        { text: 'Einsender', value: 'einsender', show: true },
+        { text: 'Station', value: 'station', show: false },
+        { text: 'Bearbeitung', value: 'bearbeitung', show: false },
+        { text: 'Material', value: 'material', show: true },
+        { text: 'NGS-Projekt', value: 'ngsProject', show: true },
+        { text: 'Datum DNA-Prep', value: 'datumPrep', show: false },
+        { text: 'DNA-Konz (ng/ul)', value: 'konzentration', show: false },
+        { text: 'Visum DNA', value: 'visumDna', show: false },
+        { text: 'Run Nummer', value: 'runNr', show: true },
+        { text: 'NGS Nummer', value: 'runProbeNr', show: true },
+        { text: 'Library Typ', value: 'libraryTyp', show: true },
+        { text: 'Datum Library', value: 'libraryDatum', show: false },
+        { text: 'Visum Library', value: 'libraryVisum', show: false },
+        { text: 'Datum Sequenzierung', value: 'seqDatum', show: false },
+        { text: 'NGS Gerät', value: 'modalität' , show: true},
+        { text: 'Visum Datenqualität', value: 'datenqualVisum' , show: false},
+        { text: 'Information alte Liste', value: 'infOldList' , show: false},
+        { text: 'Public identifier', value: 'publicIdentifier' , show: false},
       ],
       search:'',
-      tabs: null,
-    patients: [],
+    patients: [{
+        bactNr: '31251-18',
+        infOldList: '',
+        altId: '',
+        priority:'A',
+        abbreviation: 'aciint',
+        lastName: 'Walter Reyes',
+        birthdate: '12.03.1950',
+        entry: '13.11.2018',
+        abnahmeDatum: '14.11.2018',
+        einsender: 'Spital Basel',
+        station: 'Intensiv',
+        bearbeitung: '16.11.2018',
+        material: 'Blut',
+        ngsProject: 'NGS000012',
+        datumPrep: '10.11.2018',
+        konzentration: '34',
+        visumDna: 'BMA',
+        runNr: '00542',
+        runProbeNr: 'NGS4230498',
+        libraryTyp: 'next Generation',
+        libraryDatum: '20.08.2017',
+        libraryVisum:'BMA',
+        seqDatum: '20.11.2018',
+        modalität: 'NextSeq',
+        datenqualVisum: 'BMA',
+        publicIdentifier: '00003',
+          },
+         {
+        bactNr: '31251-18',
+        infOldList: '',
+        altId: '',
+        priority:'A',
+        abbreviation: 'aciint',
+        lastName: 'Walter Reyes',
+        birthdate: '12.03.1950',
+        entry: '13.11.2018',
+        abnahmeDatum: '14.11.2018',
+        einsender: 'Spital Basel',
+        station: 'Intensiv',
+        bearbeitung: '16.11.2018',
+        material: 'Blut',
+        ngsProject: 'NGS000012',
+        datumPrep: '10.11.2018',
+        konzentration: '34',
+        visumDna: 'BMA',
+        runNr: '00542',
+        runProbeNr: 'NGS4230498',
+        libraryTyp: 'next Generation',
+        libraryDatum: '20.08.2017',
+        libraryVisum:'BMA',
+        seqDatum: '20.11.2018',
+        modalität: 'NextSeq',
+        datenqualVisum: 'BMA',
+        publicIdentifier: '00003',
+          },{
+        bactNr: '31251-18',
+        infOldList: '',
+        altId: '',
+        priority:'A',
+        abbreviation: 'aciint',
+        lastName: 'Walter Reyes',
+        birthdate: '12.03.1950',
+        entry: '13.11.2018',
+        abnahmeDatum: '14.11.2018',
+        einsender: 'Spital Basel',
+        station: 'Intensiv',
+        bearbeitung: '16.11.2018',
+        material: 'Blut',
+        ngsProject: 'NGS000012',
+        datumPrep: '10.11.2018',
+        konzentration: '34',
+        visumDna: 'BMA',
+        runNr: '00542',
+        runProbeNr: 'NGS4230498',
+        libraryTyp: 'next Generation',
+        libraryDatum: '20.08.2017',
+        libraryVisum:'BMA',
+        seqDatum: '20.11.2018',
+        modalität: 'NextSeq',
+        datenqualVisum: 'BMA',
+        publicIdentifier: '00003',
+          },{
+        bactNr: '31251-18',
+        infOldList: '',
+        altId: '',
+        priority:'A',
+        abbreviation: 'aciint',
+        lastName: 'Walter Reyes',
+        birthdate: '12.03.1950',
+        entry: '13.11.2018',
+        abnahmeDatum: '14.11.2018',
+        einsender: 'Spital Basel',
+        station: 'Intensiv',
+        bearbeitung: '16.11.2018',
+        material: 'Blut',
+        ngsProject: 'NGS000012',
+        datumPrep: '10.11.2018',
+        konzentration: '34',
+        visumDna: 'BMA',
+        runNr: '00542',
+        runProbeNr: 'NGS4230498',
+        libraryTyp: 'next Generation',
+        libraryDatum: '20.08.2017',
+        libraryVisum:'BMA',
+        seqDatum: '20.11.2018',
+        modalität: 'NextSeq',
+        datenqualVisum: 'BMA',
+        publicIdentifier: '00003',
+          },
+           ],
       editedIndex: -1,
       editedPatient: {
         bactNr: '',
+        wiederholung:'',
         infOldList: '',
         altId: '',
         priority:'',
@@ -156,9 +275,6 @@ import {bus} from '../main.js';
       }
     }),
        computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      },
       pages () {
         if (this.pagination.rowsPerPage == null ||
           this.pagination.totalItems == null
@@ -186,20 +302,18 @@ import {bus} from '../main.js';
       this.search = data;
       });
       bus.$on('hideHeader', (data) =>{
-      this.headers[this.headerindex].hide = !this.headers[this.headerindex].hide
-      console.log("this is the receiving index:"+this.headerindex+"; this is the data"+data+"; this is the headerindex"+this.headerindex)
+      this.headerindex = data;
+      this.headers[this.headerindex].show = !this.headers[this.headerindex].show
       });
     },
-
-
     methods: {
-      initialize () {
+          editItem (item) {
+        //ursprünglicher Code der den PatID mitgibt!
+        this.editedIndex = this.patients.indexOf(item)
+        this.editedPatient = Object.assign({}, item)
       },
-      /*This method grabs all the headers in header[] and checks its property, compares it with
-      the state from the tab (which get provided by the Tableframe) and sets the tableheaders
-      accordingly */
-      renderHeader(){
-        return this.headers.filter(h => (h.property>= this.state)).filter(h => h.hide == false)
+           renderHeader(){
+        return this.headers.filter(h => h.show == true)
       },
     }
   }
