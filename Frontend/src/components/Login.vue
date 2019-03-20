@@ -66,7 +66,7 @@
       submit () {
         if ((this.$refs.form.validate())&& (this.name == 'User')) {
           // Native form submission is not yet supported
-          this.$router.push('/table')
+          this.$router.push('/workflow')
           }
         },
         clear () {
