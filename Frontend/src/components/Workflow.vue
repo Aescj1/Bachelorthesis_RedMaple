@@ -7,7 +7,7 @@
                 <v-flex d-flex>
                     <v-card color="purple" dark>
                     <v-card-title primary class="title">Geplant</v-card-title>
-                    <v-card-text>{{ lorem }}</v-card-text>
+                    <Geplant/>
                     </v-card>
                 </v-flex>
 
@@ -71,7 +71,12 @@
 </template>
 
 <script>
+import Geplant from './Geplant.vue'
+
   export default {
+    components:{
+      Geplant
+    },
     data: () => ({
       lorem: `Lorem ipsum dolor sit amet, mel at
        clita quando. Te sit oratio vituperatoribus, nam ad ipsum posidonium mediocritatem, explicari dissentiunt cu mea. Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.`

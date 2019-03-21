@@ -15,12 +15,8 @@
       <v-toolbar-title><img class="header-logo" src="./assets/Red_Maple.png"> <p class="header-text">Red Maple</p></v-toolbar-title>
     </v-toolbar>
     <v-content class="board-background">
-      <v-container fluid  >
-        <v-layout row wrap>
-          <v-flex xs12>
-            <router-view></router-view>
-          </v-flex>
-        </v-layout>
+      <v-container >
+        <router-view></router-view>
       </v-container>
     </v-content> 
     <v-footer app fixed>
