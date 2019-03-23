@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-md>
+  <v-container fluid grid-list-md>
     <v-layout  row wrap>
       <v-flex d-flex xs12 sm12 md12 xl12 lg12>
         <v-toolbar>
@@ -50,10 +50,8 @@
           </template>
         </v-list>
     </v-flex>
-        <v-flex  xs10 sm10 md10 xl10 lg10 fill-height>
-          <v-card color="blue lighten-2" dark>
-          <v-card-title primary class="title">Sequenzierungslauf</v-card-title>
-          </v-card>
+        <v-flex d-flex xs10 sm10 md10 xl10 lg10>
+          <NgsFormular></NgsFormular>
        </v-flex>
       </v-layout>
   </v-container>
@@ -61,7 +59,13 @@
 
 
 <script>
+import NgsFormular from './NgsFormular.vue'
+
+
   export default {
+      components: {
+    NgsFormular,
+  },
     data: () => ({
       search:"",
       items: [

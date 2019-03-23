@@ -1,125 +1,184 @@
 <template>
-<v-dialog v-model="dialog" max-width="1000px">
         <v-card>
-          <v-card-title>Dataset Formular </v-card-title>
-
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
+                <v-flex d-flex xs3 sm3 md3>
+            <v-card row wrap flat color="red lighten-4">
                     <v-flex> 
                   <v-text-field v-model="editedPatient.bactNr" label="Bact Nummer*" required></v-text-field>
                 </v-flex>
+                <v-spacer></v-spacer>
                 <v-flex> 
                   <v-text-field v-model="editedPatient.wiederholung" label="Wiederholung*" required></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.altId" label="alternative ID"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.priority" label="Priority*" required></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.pathogen" label="Pathogen (g)*" required></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.lastName" label="lastName*" required></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.firstName" label="fistName*" required></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+            </v-card>
+                </v-flex>
+
+                <v-flex d-flex xs3 sm3 md3>
+            <v-card row wrap flat color="red lighten-3">
+
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.birthdate" label="Geburtsdatum*" required></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.entry" label="Eingang*" required></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.abnahme" label="Abnahme"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.sender" label="Einsender*" required></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.station" label="Station*" required></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.editing" label="Bearbeitungsdatum"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.material" label="Material*" required></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+            </v-card>
+                </v-flex>
+
+                <v-flex d-flex xs3 sm3 md3>
+            <v-card row wrap flat color="red lighten-2">
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.ngsProject" label="NGS - Projekt"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.dnaPrepDate" label="DNA Vorbereitungsdatum"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.dnaKonz" label="DNA Konzentration"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.dnaVisum" label="DNA Visum"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.runNr" label="Run NR"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.ngsNr" label="NGS Nummer"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.libType" label="Librarytype"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+            </v-card>
+                </v-flex>
+                <v-flex d-flex xs3 sm3 md3>
+            <v-card row wrap flat color="red lighten-1">
+                                
+                <v-flex >
                   <v-text-field v-model="editedPatient.libDate" label="Library date"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.libVisum" label="Library Visum"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.seqDate" label="Sequenzierungs Datum"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.ngsMachine" label="NGS Maschine"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.qualityVisum" label="Qualitäts Visum"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.infOldList" label="Information Alteliste"></v-text-field>
                 </v-flex>
-                <v-flex xs12 sm6 md4>
+                                <v-spacer></v-spacer>
+
+                <v-flex >
                   <v-text-field v-model="editedPatient.pubID" label="Public ID*" required></v-text-field>
                 </v-flex>
-                <v-spacer></v-spacer>
-                <v-card-actions>
-                    <v-btn color="blue darken-1"  @click="close">Cancel</v-btn>
-                    <v-btn color="blue darken-1"  @click="onSubmit">Save</v-btn>
-                </v-card-actions>
+                                <v-spacer></v-spacer>
+
+            </v-card>
+                </v-flex>
               </v-layout>
             </v-container>
           </v-card-text>
-
         </v-card>
-      </v-dialog>
 </template>
 
 <script>
   import {bus} from '../main.js'    
-  import axios from 'axios'
+ // import axios from 'axios'
 
 
 export default{
 
      created () {
-         bus.$on('editedIndex', (data) =>{
-             this.editedIndex = data;
-         });
-         bus.$on('editedPatient', (data) =>{
-             this.editedPatient = data;
-         });
-         bus.$on('openFormular', (data) =>{
-             this.dialog = data;
-         });
+
     },
     data:() =>({
         patId:'',
@@ -158,20 +217,8 @@ export default{
       
     }),
     methods:{
-              close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedPatient = Object.assign({}, this.Patient)
-          this.editedIndex = -1
-        }, 300)
-      },
       onSubmit(){
-        const newPatient = {
-          firstName: this.editedPatient.firstName,
-          lastName: this.editedPatient.lastName,
-          birthdate:this.editedPatient.birthdate
-        }
-        
+        /*
         axios.post('http://147.87.118.201:3000/api/TblPatients', newPatient)
           .then(ack1 =>{
             axios.get('http://147.87.118.201:3000/api/TblPatients/findOne?filter={"where":{"and":[{"firstName":"'+this.editedPatient.firstName+'"},{"lastName":"'+this.editedPatient.lastName+'"}]}}')
@@ -210,6 +257,7 @@ export default{
           
         this.close();
         this.save();
+        */
         },
       
       // else statement = wen neuer Pat, if = editedPat. hier muss index und Pat übergeben werden.

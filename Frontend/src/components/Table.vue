@@ -1,5 +1,6 @@
 <!-- This is the View for the table! Important: it is read only!!-->
 <template>
+<v-container fluid>
   <v-card>
     <v-card-title>
       <v-spacer></v-spacer>
@@ -60,6 +61,7 @@
     </template>
   </v-data-table>
   </v-card>
+</v-container>
 </template>
 
 <script>

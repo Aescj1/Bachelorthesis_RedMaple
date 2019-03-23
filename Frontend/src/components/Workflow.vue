@@ -5,14 +5,14 @@
         <v-flex d-flex xs5 sm5 md5 xl5 lg5>
             <v-layout row wrap>
                 <v-flex d-flex>
-                    <v-card color="purple" dark>
+                    <v-card  max-height="70%" color="grey lighten-1" dark>
                     <v-card-title primary class="title">Geplant</v-card-title>
-                    <Geplant/>
+                    <Geplant class="test"/>
                     </v-card>
                 </v-flex>
 
                 <v-flex d-flex>
-                    <v-card color="blue lighten-2" dark>
+                    <v-card max-height="70%" color="grey lighten-1" dark>
                     <v-card-title primary class="title">Lauf</v-card-title>
                     <v-card-text>{{ lorem }}</v-card-text>
                     </v-card>
@@ -23,14 +23,14 @@
         <v-flex d-flex xs5 sm5 md5 xl5 lg5>
             <v-layout row wrap>
                 <v-flex d-flex>
-                    <v-card color="red" dark>
+                    <v-card max-height="70%" color="grey lighten-1" dark>
                     <v-card-title primary class="title">Extrahiert</v-card-title>
                     <v-card-text>{{ lorem }}</v-card-text>
                     </v-card>
                 </v-flex>
 
                 <v-flex d-flex>
-                    <v-card color="green" dark>
+                    <v-card max-height="70%" color="grey lighten-1" dark>
                     <v-card-title primary class="title">Sequenziert</v-card-title>
                     <v-card-text>{{ lorem }}</v-card-text>
                     </v-card>
@@ -42,7 +42,7 @@
             <v-layout row wrap >
              <v-item-group class="item-group">
                 <v-flex>
-                    <v-btn class="processButton" id="first" fab dark large color="purple">
+                    <v-btn @click="changeworkflow()" class="processButton" id="first" fab dark large color="purple">
                       G
                      </v-btn>
                 </v-flex>
@@ -80,7 +80,12 @@ import Geplant from './Geplant.vue'
     data: () => ({
       lorem: `Lorem ipsum dolor sit amet, mel at
        clita quando. Te sit oratio vituperatoribus, nam ad ipsum posidonium mediocritatem, explicari dissentiunt cu mea. Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.`
-    })
+    }),
+    methods:{
+      changeworkflow(){
+                this.$router.push('/geplant')
+      },
+    },
   }
 </script>
 
@@ -99,5 +104,8 @@ import Geplant from './Geplant.vue'
 #first{
   margin-top: 9rem;
 
+}
+.test{
+  max-height: 10%;
 }
 </style>

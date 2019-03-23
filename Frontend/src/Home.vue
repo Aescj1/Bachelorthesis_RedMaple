@@ -15,7 +15,7 @@
       <v-toolbar-title><img class="header-logo" src="./assets/Red_Maple.png"> <p class="header-text">Red Maple</p></v-toolbar-title>
     </v-toolbar>
     <v-content class="board-background">
-      <v-container >
+      <v-container fluid>
         <router-view></router-view>
       </v-container>
     </v-content> 
@@ -30,7 +30,6 @@ import UserTab from './components/UserTab.vue'
 import {bus} from './main.js'; 
 
   export default {
-    name: 'Layout',
   components: {
     UserTab,
   },
