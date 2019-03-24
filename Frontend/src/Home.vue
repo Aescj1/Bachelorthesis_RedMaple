@@ -16,7 +16,7 @@
     </v-toolbar>
     <v-content class="board-background">
       <v-container fluid>
-        <router-view></router-view>
+        <router-view/>
       </v-container>
     </v-content> 
     <v-footer app fixed>
@@ -80,5 +80,6 @@ overflow:auto;
 /*removes the scrollbar of the main frame*/
 .main{
     overflow-y: unset !important;
+    height:100vh;
 }
 </style>

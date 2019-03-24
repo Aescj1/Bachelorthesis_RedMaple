@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import 'babel-polyfill'
 import Home from './Home.vue'
 import {routes} from './routes'
+import {store} from './store/store.js'
 
 
 Vue.use(VueRouter);
@@ -19,5 +20,6 @@ export const bus = new Vue()
 
 new Vue({
  router,
+ store,
  render: h => h(Home)
 }).$mount('#app')

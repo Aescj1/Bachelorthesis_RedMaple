@@ -21,11 +21,18 @@
             </v-list>
           </v-menu>
           <v-spacer></v-spacer>
+          <v-btn color="primary" @click="created()">Refresh</v-btn>
+          <v-spacer></v-spacer><v-icon class="mr-1" @click="changeworkflow()" right>transit_enterexit</v-icon>
+          <v-spacer></v-spacer>
           <v-text-field
             hide-details
-            append-icon="search"
+             prepend-inner-icon="search"
             single-line
             color="red"
+            solo-inverted
+            v-model='search'
+            clearable 
+            @click:clear="clearSearch"
             >
           </v-text-field>
         </v-toolbar>
@@ -35,23 +42,107 @@
     
     <v-layout row wrap>
         <v-flex  xs2 sm2 md2 xl2 lg2 class="scroll">
-        <v-list fluid fill-height>
-          <template v-for="patient in patients">
+        <v-list  fill-height>
+          <template v-for="(patient, index) in filteredItems">
 
             <v-list-tile
-              :key="patient.priority"
+              :key="patient.bactNr"
               avatar
+              @click="setCurrentData(patient)"
             >
               <v-list-tile-content>
-                <v-list-tile-title v-html="patient.bactNr"></v-list-tile-title>
-                <v-list-tile-sub-title v-html="patient.priority"></v-list-tile-sub-title>
+                <v-list-tile-title>{{patient.bactNr}}</v-list-tile-title>
+                <v-list-tile-sub-title>{{patient.priority}}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
+             <v-divider
+                    v-if="index + 1 < patientList.length"
+                    :key="index"
+                  ></v-divider>
           </template>
         </v-list>
     </v-flex>
         <v-flex d-flex xs10 sm10 md10 xl10 lg10>
-          <NgsFormular></NgsFormular>
+          <v-card>
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex d-flex xs4 sm4 md4>
+            <v-card row wrap flat color="red lighten-4">
+                    <v-flex> 
+                  <v-text-field v-model="this.$store.state.currentDataset1.bactNr" label="Bact Nummer*" required></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex> 
+                  <v-text-field v-model="this.$store.state.currentDataset1.wiederholung" label="Wiederholung*" required></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex >
+                  <v-text-field v-model="this.$store.state.currentDataset1.altId" label="alternative ID"></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex >
+                  <v-text-field v-model="this.$store.state.currentDataset1.priority" label="Priority*" required></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex >
+                  <v-text-field v-model="this.$store.state.currentDataset1.abbreviation" label="Pathogen (g)*" required></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex >
+                  <v-text-field v-model="this.$store.state.currentDataset1.lastName" label="lastName*" required></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex >
+                  <v-text-field v-model="this.$store.state.currentDataset1.firstName" label="fistName*" required></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+            </v-card>
+                </v-flex>
+                <v-flex d-flex xs4 sm4 md4>
+            <v-card row wrap flat color="red lighten-3">
+                <v-flex >
+                  <v-text-field v-if="this.$route.path == '/geplant'" v-model="this.$store.state.currentDataset1.birthdate" label="Geburtsdatum*" required></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex >
+                  <v-text-field v-model="this.$store.state.currentDataset1.entry" label="Eingang*" required></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex >
+                  <v-text-field v-model="this.$store.state.currentDataset1.abnahmeDatum" label="Abnahme"></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex >
+                  <v-text-field v-model="this.$store.state.currentDataset1.einsender" label="Einsender*" required></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex >
+                  <v-text-field v-model="this.$store.state.currentDataset1.station" label="Station*" required></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex >
+                  <v-text-field v-model="this.$store.state.currentDataset1.bearbeitung" label="Bearbeitungsdatum"></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex >
+                  <v-text-field v-model="this.$store.state.currentDataset1.material" label="Material*" required></v-text-field>
+                </v-flex>
+                <v-spacer></v-spacer>
+            </v-card>
+                </v-flex>
+                <v-flex d-flex xs4 sm4 md4>
+            <v-card row wrap flat color="red lighten-2">
+                <v-flex>
+                  <v-text-field v-model="this.$store.state.currentDataset1.ngsProject" label="NGS - Projekt"></v-text-field>
+                </v-flex>
+            </v-card>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
+        </v-card>
+                   <!-- <NgsFormular></NgsFormular> !-->
        </v-flex>
       </v-layout>
   </v-container>
@@ -59,641 +150,23 @@
 
 
 <script>
-import NgsFormular from './NgsFormular.vue'
+import _ from 'lodash';
+
 
 
   export default {
-      components: {
-    NgsFormular,
-  },
+
     data: () => ({
-      search:"",
+      search:'',
       items: [
         { title: 'Bact-Nr' },
         { title: 'Priority' },
         { title: 'Einsender' },
         { title: 'Pathogen' }
       ],
-      patients: [{
-        bactNr: '31251-18',
-        infOldList: '',
-        altId: '',
-        priority:'A',
-        abbreviation: 'aciint',
-        lastName: 'Walter Reyes',
-        birthdate: '12.03.1950',
-        entry: '13.11.2018',
-        abnahmeDatum: '14.11.2018',
-        einsender: 'Spital Basel',
-        station: 'Intensiv',
-        bearbeitung: '16.11.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        datumPrep: '10.11.2018',
-        konzentration: '34',
-        visumDna: 'BMA',
-        runNr: '00542',
-        runProbeNr: 'NGS4230498',
-        libraryTyp: 'next Generation',
-        libraryDatum: '20.08.2017',
-        libraryVisum:'BMA',
-        seqDatum: '20.11.2018',
-        modalität: 'NextSeq',
-        datenqualVisum: 'BMA',
-        publicIdentifier: '00003',
-          },
-
-          {
-        bactNr: '113431-18',
-        infOldList: '',
-        altId: '',
-        priority:'C',
-        pathogen: 'actori',
-        patName: 'Ursula Propst',
-        birthdate: '17.10.1976',
-        entry: '18.06.2018',
-        abnahme: '19.06.2018',
-        sender: 'Spital Zürich',
-        station: 'Station A',
-        editing: '20.06.2018',
-        material: 'Auswurf',
-        ngsProject: 'NGS000015',
-        dnaPrepDate: '23.06.2018',
-        dnaKonz: '22',
-        dnaVisum: 'BMA',
-        runNr: '00223',
-        ngsNr: 'NGS4230415',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '26.05.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '056404',
-          }, 
-          {
-        bactNr: '149765-18',
-        infOldList: '',
-        altId: '',
-        priority:'A',
-        pathogen: 'actori',
-        patName: 'Jürgen Vogel',
-        birthdate: '17.10.1986',
-        entry: '14.06.2018',
-        abnahme: '15.06.2018',
-        sender: 'Spital Zürich',
-        station: 'Orthopädie',
-        editing: '20.06.2018',
-        material: 'Bronchialsekret',
-        ngsProject: 'NGS004612',
-        dnaPrepDate: '21.06.2018',
-        dnaKonz: '27',
-        dnaVisum: 'BMA',
-        runNr: '00223',
-        ngsNr: 'NGS4230415',
-        libType: 'Nextera XT',
-        libDate: '05.02.2016',
-        libVisum:'BMA',
-        seqDate: '08.03.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '002344',
-          }, 
-          {
-        bactNr: '13957-18',
-        infOldList: '',
-        altId: '',
-        priority:'A',
-        pathogen: 'actori',
-        patName: 'Susanne Klein',
-        birthdate: '10.02.1989',
-        entry: '03.01.2018',
-        abnahme: '04.01.2018',
-        sender: 'Spital Basel',
-        station: 'Dermatologie',
-        editing: '06.01.2018',
-        material: 'Biopsie',
-        ngsProject: 'NGS001238',
-        dnaPrepDate: '10.01.2018',
-        dnaKonz: '43',
-        dnaVisum: 'BMA',
-        runNr: '00273',
-        ngsNr: 'NGS4230419',
-        libType: 'Nextera XT',
-        libDate: '01.12.2017',
-        libVisum:'BMA',
-        seqDate: '10.01.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '684344',
-          }, 
-          {
-        bactNr: '125977-18',
-        infOldList: '',
-        altId: '',
-        priority:'A',
-        pathogen: 'actori',
-        patName: 'Lukas Hofmann',
-        birthdate: '15.06.1941',
-        entry: '05.01.2018',
-        abnahme: '06.01.2018',
-        sender: 'Inselspital Bern',
-        station: 'Palliativmedizin ',
-        editing: '12.01.2018',
-        material: 'Stuhl',
-        ngsProject: 'NGS001738',
-        dnaPrepDate: '14.01.2018',
-        dnaKonz: '33',
-        dnaVisum: 'BMA',
-        runNr: '00473',
-        ngsNr: 'NGS4233419',
-        libType: 'Nextera XT',
-        libDate: '01.12.2017',
-        libVisum:'BMA',
-        seqDate: '10.01.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '498632',
-          }, 
-          {
-        bactNr: '125397-18',
-        infOldList: '',
-        altId: 'DA23d34',
-        priority:'A',
-        pathogen: 'pkt',
-        patName: 'Eric Schuster',
-        birthdate: '13.02.1973',
-        entry: '12.03.2018',
-        abnahme: '13.03.2018',
-        sender: 'Spital Zürich',
-        station: 'Mund-, KieferChirurgie',
-        editing: '15.03.2018',
-        material: 'Sputum',
-        ngsProject: 'NGS007238',
-        dnaPrepDate: '19.03.2018',
-        dnaKonz: '52',
-        dnaVisum: 'BMA',
-        runNr: '00973',
-        ngsNr: 'NGS4238419',
-        libType: 'Nextera XT',
-        libDate: '01.02.2018',
-        libVisum:'BMA',
-        seqDate: '25.01.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '0123682',
-          }, 
-          {
-        bactNr: '159927-17',
-        infOldList: 'NG30223',
-        altId: 'ID-004',
-        priority:'C',
-        pathogen: 'strebg',
-        patName: 'Susanne Dresdner',
-        birthdate: '28.04.1969',
-        entry: '13.07.2018',
-        abnahme: '16.07.2018',
-        sender: 'Spital Basel',
-        station: 'Neurochirurgie',
-        editing: '22.07.2018',
-        material: 'Biopsie',
-        ngsProject: 'NGS311238',
-        dnaPrepDate: '25.07.2018',
-        dnaKonz: '63',
-        dnaVisum: 'BMA',
-        runNr: '02273',
-        ngsNr: 'NGS4230400',
-        libType: 'Nextera XT',
-        libDate: '24.05.2018',
-        libVisum:'BMA',
-        seqDate: '28.07.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '0345914',
-          }, 
-          {
-        bactNr: '127237-17',
-        infOldList: '',
-        altId: '',
-        priority:'C',
-        pathogen: 'clodif',
-        patName: 'Martin Kuhn',
-        birthdate: '28.04.1973',
-        entry: '16.07.2018',
-        abnahme: '16.07.2018',
-        sender: 'Spital Basel',
-        station: 'Station B',
-        editing: '21.07.2018',
-        material: 'Sputum',
-        ngsProject: 'NGS012238',
-        dnaPrepDate: '25.07.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '01263',
-        ngsNr: 'NGS4210400',
-        libType: 'Nextera XT',
-        libDate: '24.05.2018',
-        libVisum:'BMA',
-        seqDate: '27.07.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '0036715',
-          }, 
-          {
-        bactNr: '168427-18',
-        infOldList: '',
-        altId: '',
-        priority:'C',
-        pathogen: 'strenh',
-        patName: 'Kathrin Bauer',
-        birthdate: '28.04.1989',
-        entry: '16.08.2018',
-        abnahme: '16.08.2018',
-        sender: 'Spital Basel',
-        station: 'Gynäkologie',
-        editing: '21.08.2018',
-        material: 'Abstrich',
-        ngsProject: 'NGS012238',
-        dnaPrepDate: '25.08.2018',
-        dnaKonz: '38',
-        dnaVisum: 'BMA',
-        runNr: '01213',
-        ngsNr: 'NGS4510400',
-        libType: 'Nextera XT',
-        libDate: '24.05.2018',
-        libVisum:'BMA',
-        seqDate: '27.07.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00316',
-          }, 
-           {
-        bactNr: '583958-18',
-        infOldList: '',
-        altId: '',
-        priority:'C',
-        pathogen: 'aciint',
-        patName: 'Jens Konig',
-        birthdate: '12.06.1950',
-        entry: '12.03.2018',
-        abnahme: '13.03.2018',
-        sender: 'Spital Zürich',
-        station: 'Intensiv',
-        editing: '11.03.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000142',
-        dnaPrepDate: '15.03.2018',
-        dnaKonz: '54',
-        dnaVisum: 'BMA',
-        runNr: '00142',
-        ngsNr: 'NGS4243198',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.01.2017',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '056734',
-          },
-          {
-        bactNr: '601401-18',
-        infOldList: '',
-        altId: '',
-        priority:'C',
-        pathogen: 'ecoli',
-        patName: 'Lukas Pabst',
-        birthdate: '22.08.1991',
-        entry: '03.09.2018',
-        abnahme: '02.09.2018',
-        sender: 'Inselspital Bern',
-        station: 'Intensiv',
-        editing: '04.09.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '06.09.2018',
-        dnaKonz: '14',
-        dnaVisum: 'BMA',
-        runNr: '00543',
-        ngsNr: 'NGS4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '16.09.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '543002',
-          },  
-          {
-        bactNr: '126881-18',
-        infOldList: '',
-        altId: 'ID-074',
-        priority:'C',
-        pathogen: 'ecoli',
-        patName: 'Lucas Gloeckner',
-        birthdate: '17.10.1956',
-        entry: '14.05.2018',
-        abnahme: '17.05.2018',
-        sender: 'Spital Basel',
-        station: 'Notfall',
-        editing: '18.05.2018',
-        material: 'Stuhl',
-        ngsProject: 'NGS020011',
-        dnaPrepDate: '23.05.2018',
-        dnaKonz: '18',
-        dnaVisum: 'BMA',
-        runNr: '00223',
-        ngsNr: 'NGS4230415',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '26.05.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '308961',
-          },
-          {
-        bactNr: '101959-17',
-        infOldList: 'NG30223',
-        altId: 'ID404',
-        priority:'C',
-        pathogen: 'stremo',
-        patName: 'Dominik Faerber',
-        birthdate: '17.10.1982',
-        entry: '22.06.2018',
-        abnahme: '23.06.2018',
-        sender: 'Spital Zürich',
-        station: 'Station A',
-        editing: '25.06.2018',
-        material: 'Auswurf',
-        ngsProject: 'NGS000015',
-        dnaPrepDate: '23.06.2018',
-        dnaKonz: '28',
-        dnaVisum: 'BMA',
-        runNr: '00223',
-        ngsNr: 'NGS4230415',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '26.05.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '008644',
-          }, 
-          {
-        bactNr: '191575-18',
-        infOldList: '',
-        altId: 'NGS-156',
-        pathogen: 'actori',
-        patName: 'Kristin Kastner',
-        birthdate: '17.10.1986',
-        entry: '14.06.2018',
-        abnahme: '15.06.2018',
-        sender: 'Spital Zürich',
-        station: 'Orthopädie',
-        editing: '20.06.2018',
-        material: 'Bronchialsekret',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '21.06.2018',
-        dnaKonz: '25',
-        dnaVisum: 'BMA',
-        runNr: '00223',
-        ngsNr: 'NGS4230415',
-        libType: 'Nextera XT',
-        libDate: '05.02.2016',
-        libVisum:'BMA',
-        seqDate: '08.03.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '015674',
-          }, 
-          {
-        bactNr: '168399-18',
-        infOldList: 'NG30223',
-        altId: '',
-        priority:'C',
-        pathogen: 'stregc',
-        patName: 'Simone Schultheiss',
-        birthdate: '10.02.1989',
-        entry: '03.01.2018',
-        abnahme: '04.01.2018',
-        sender: 'Spital Basel',
-        station: 'Dermatologie',
-        editing: '06.01.2018',
-        material: 'Biopsie',
-        ngsProject: 'NGS001238',
-        dnaPrepDate: '10.01.2018',
-        dnaKonz: '43',
-        dnaVisum: 'BMA',
-        runNr: '00745',
-        ngsNr: 'NGS4230419',
-        libType: 'Nextera XT',
-        libDate: '01.12.2017',
-        libVisum:'BMA',
-        seqDate: '10.01.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '68403',
-          }, 
-          {
-        bactNr: '000012-18',
-        infOldList: '',
-        altId: '',
-        priority:'B',
-        pathogen: 'clodif',
-        patName: 'Thomas Shuster',
-        birthdate: '28.04.1973',
-        entry: '16.07.2018',
-        abnahme: '16.07.2018',
-        sender: 'Spital Basel',
-        station: 'Station B',
-        editing: '21.07.2018',
-        material: 'Sputum',
-        ngsProject: 'NGS012238',
-        dnaPrepDate: '25.07.2018',
-        dnaKonz: '34',
-        dnaVisum: 'BMA',
-        runNr: '01263',
-        ngsNr: 'NGS4210400',
-        libType: 'Nextera XT',
-        libDate: '24.05.2018',
-        libVisum:'BMA',
-        seqDate: '27.07.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00315',
-          }, 
-          {
-        bactNr: '168497-18',
-        infOldList: '',
-        altId: '',
-        priority:'A',
-        pathogen: 'strenh',
-        patName: 'Manuela Dörbier',
-        birthdate: '28.04.1989',
-        entry: '16.08.2018',
-        abnahme: '16.08.2018',
-        sender: 'Spital Basel',
-        station: 'Gynäkologie',
-        editing: '21.08.2018',
-        material: 'Abstrich',
-        ngsProject: 'NGS012238',
-        dnaPrepDate: '25.08.2018',
-        dnaKonz: '38',
-        dnaVisum: 'BMA',
-        runNr: '01213',
-        ngsNr: 'NGS4510400',
-        libType: 'Nextera XT',
-        libDate: '24.05.2018',
-        libVisum:'BMA',
-        seqDate: '27.07.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00316',
-          }, 
-           {
-        bactNr: '311281-18',
-        infOldList: '',
-        altId: '',
-        priority:'B',
-        pathogen: 'aciint',
-        patName: 'Ralf Müller',
-        birthdate: '12.06.1950',
-        entry: '12.03.2018',
-        abnahme: '13.03.2018',
-        sender: 'Spital Zürich',
-        station: 'Intensiv',
-        editing: '11.03.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000142',
-        dnaPrepDate: '15.03.2018',
-        dnaKonz: '54',
-        dnaVisum: 'BMA',
-        runNr: '00142',
-        ngsNr: 'NGS4243198',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '20.01.2017',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00734',
-          },
-          {
-        bactNr: '601481-18',
-        infOldList: '',
-        altId: '',
-        priority:'B',
-        pathogen: 'ecoli',
-        patName: 'Ralf Mühler',
-        birthdate: '22.08.1991',
-        entry: '03.09.2018',
-        abnahme: '02.09.2018',
-        sender: 'Inselspital Bern',
-        station: 'Intensiv',
-        editing: '04.09.2018',
-        material: 'Blut',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '06.09.2018',
-        dnaKonz: '14',
-        dnaVisum: 'BMA',
-        runNr: '00543',
-        ngsNr: 'NGS4230498',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '16.09.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00002',
-          },  
-          {
-        bactNr: '121481-18',
-        infOldList: '',
-        altId: '',
-        priority:'A',
-        pathogen: 'ecoli',
-        patName: 'Dieter Frueh',
-        birthdate: '17.10.1956',
-        entry: '14.05.2018',
-        abnahme: '17.05.2018',
-        sender: 'Spital Basel',
-        station: 'Notfall',
-        editing: '18.05.2018',
-        material: 'Stuhl',
-        ngsProject: 'NGS020011',
-        dnaPrepDate: '23.05.2018',
-        dnaKonz: '18',
-        dnaVisum: 'BMA',
-        runNr: '00223',
-        ngsNr: 'NGS4230415',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '26.05.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '30501',
-          },
-          {
-        bactNr: '101439-17',
-        infOldList: 'NG30223',
-        altId: 'ID-004',
-        priority:'A',
-        pathogen: 'stremo',
-        patName: 'Tom Papst',
-        birthdate: '17.10.1982',
-        entry: '22.06.2018',
-        abnahme: '23.06.2018',
-        sender: 'Spital Zürich',
-        station: 'Station A',
-        editing: '25.06.2018',
-        material: 'Auswurf',
-        ngsProject: 'NGS000015',
-        dnaPrepDate: '23.06.2018',
-        dnaKonz: '28',
-        dnaVisum: 'BMA',
-        runNr: '00223',
-        ngsNr: 'NGS4230415',
-        libType: 'next Generation',
-        libDate: '20.08.2017',
-        libVisum:'BMA',
-        seqDate: '26.05.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '00354',
-          }, 
-          {
-        bactNr: '191435-18',
-        infOldList: '',
-        altId: 'NGS-156',
-        priority:'A',
-        pathogen: 'actori',
-        patName: 'Thorsten Muench',
-        birthdate: '17.10.1986',
-        entry: '14.06.2018',
-        abnahme: '15.06.2018',
-        sender: 'Spital Zürich',
-        station: 'Orthopädie',
-        editing: '20.06.2018',
-        material: 'Bronchialsekret',
-        ngsProject: 'NGS000012',
-        dnaPrepDate: '21.06.2018',
-        dnaKonz: '25',
-        dnaVisum: 'BMA',
-        runNr: '00223',
-        ngsNr: 'NGS4230415',
-        libType: 'Nextera XT',
-        libDate: '05.02.2016',
-        libVisum:'BMA',
-        seqDate: '08.03.2018',
-        ngsMachine: 'NextSeq',
-        qualityVisum: 'BMA',
-        pubID: '01504',
-          }, 
-        
-
-           ],
-      editedPatient: {
+      patientList:[
+      ],
+      currentDataset1: {
         bactNr: '',
         wiederholung:'',
         infOldList: '',
@@ -702,7 +175,6 @@ import NgsFormular from './NgsFormular.vue'
         abbreviation: '',
         lastName: '',
         firstName:'',
-        patName: '',
         birthdate: '',
         entry: '',
         abnahmeDatum: '',
@@ -711,23 +183,46 @@ import NgsFormular from './NgsFormular.vue'
         bearbeitung: '',
         material: '',
         ngsProject: '',
-        datumPrep: '',
-        konzentration: '',
-        visumDna: '',
-        runNr: '',
-        runProbeNr: '',
-        libraryTyp: '',
-        libraryDatum: '',
-        libraryVisum: '',
-        seqDatum: '',
-        modalität: '',
-        datenqualVisum: '',
-        publicIdentifier: '',
       },
-      methods:{
+    }),
+    computed: {
 
-      }
-    })
+      //This Method filters the PatientList and builds the V-List that is displayed. 
+        filteredItems() {
+         //   this.patientList = this.$store.state.NgsList
+            return _.orderBy(this.patientList.filter(patient => {
+              //the if just checks if the search is null, which happens when you clear the searchfield with the clearSearch() method
+              if(!this.search) return this.patientList;
+              //that block checks if any search input matches the data in the patientList. It loops trought the Patient and checks if a match results in true.
+              //ex. patient.bactNr is the same as this.search then it returns the patients
+                for (var item in patient){
+                    return patient[item].toLowerCase().includes(this.search.toLowerCase())
+                }
+            }));
+        }
+    },
+    methods:{
+      changeworkflow(){
+        this.$router.push('/workflow')
+
+      },
+           created(){
+          for(var i=0; i< this.$store.state.NgsList.length; i++ ){
+          if(this.$store.state.NgsList[i].process == 1){
+          this.currentDataset1 = this.$store.state.NgsList[i]
+          this.patientList.push(this.currentDataset1)
+          }
+          }
+      },
+      //clears the search and sets the value null
+        clearSearch(){
+          this.search='';
+          },
+          //sets the currentPatient
+          setCurrentData(patient){
+            this.$store.state.currentDataset1 = patient
+          }
+          }
   }
 </script>
 <style>

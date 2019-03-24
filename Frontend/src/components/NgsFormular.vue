@@ -6,162 +6,130 @@
                 <v-flex d-flex xs3 sm3 md3>
             <v-card row wrap flat color="red lighten-4">
                     <v-flex> 
-                  <v-text-field v-model="editedPatient.bactNr" label="Bact Nummer*" required></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.bactNr" label="Bact Nummer*" required></v-text-field>
                 </v-flex>
                 <v-spacer></v-spacer>
                 <v-flex> 
-                  <v-text-field v-model="editedPatient.wiederholung" label="Wiederholung*" required></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.wiederholung" label="Wiederholung*" required></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.altId" label="alternative ID"></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.altId" label="alternative ID"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.priority" label="Priority*" required></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.priority" label="Priority*" required></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.pathogen" label="Pathogen (g)*" required></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.abbreviation" label="Pathogen (g)*" required></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.lastName" label="lastName*" required></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.lastName" label="lastName*" required></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.firstName" label="fistName*" required></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.firstName" label="fistName*" required></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
             </v-card>
                 </v-flex>
-
                 <v-flex d-flex xs3 sm3 md3>
             <v-card row wrap flat color="red lighten-3">
-
-
                 <v-flex >
-                  <v-text-field v-model="editedPatient.birthdate" label="Geburtsdatum*" required></v-text-field>
+                  <v-text-field v-if="this.$route.path == '/geplant'" v-model="this.$store.state.currentDataset.birthdate" label="Geburtsdatum*" required></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.entry" label="Eingang*" required></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.entry" label="Eingang*" required></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.abnahme" label="Abnahme"></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.abnahmeDatum" label="Abnahme"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.sender" label="Einsender*" required></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.einsender" label="Einsender*" required></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.station" label="Station*" required></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.station" label="Station*" required></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.editing" label="Bearbeitungsdatum"></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.bearbeitung" label="Bearbeitungsdatum"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.material" label="Material*" required></v-text-field>
+                  <v-text-field v-model="this.$store.state.currentDataset.material" label="Material*" required></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
             </v-card>
                 </v-flex>
-
+              
                 <v-flex d-flex xs3 sm3 md3>
             <v-card row wrap flat color="red lighten-2">
-
-                <v-flex >
-                  <v-text-field v-model="editedPatient.ngsProject" label="NGS - Projekt"></v-text-field>
+                <v-flex>
+                  <v-text-field v-model="this.$store.state.currentDataset.ngsProject" label="NGS - Projekt"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.dnaPrepDate" label="DNA Vorbereitungsdatum"></v-text-field>
+                  <v-text-field v-if="this.$store.state.currentDataset.process>=2" v-model="this.$store.state.currentDataset.datumPrep" label="DNA Vorbereitungsdatum"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.dnaKonz" label="DNA Konzentration"></v-text-field>
+                  <v-text-field  v-if="this.$store.state.currentDataset.process>=2" v-model="this.$store.state.currentDataset.konzentration" label="DNA Konzentration"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.dnaVisum" label="DNA Visum"></v-text-field>
+                  <v-text-field v-if="this.$store.state.currentDataset.process>=2" v-model="this.$store.state.currentDataset.visumDna" label="DNA Visum"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.runNr" label="Run NR"></v-text-field>
+                  <v-text-field  v-if="this.$store.state.currentDataset.process>=3" v-model="this.$store.state.currentDataset.runNr" label="Run NR"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.ngsNr" label="NGS Nummer"></v-text-field>
+                  <v-text-field  v-if="this.$store.state.currentDataset.process>=3" v-model="this.$store.state.currentDataset.runProbeNr" label="NGS Nummer"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.libType" label="Librarytype"></v-text-field>
+                  <v-text-field  v-if="this.$store.state.currentDataset.process>=3" v-model="this.$store.state.currentDataset.libraryTyp" label="Librarytype"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
             </v-card>
                 </v-flex>
-                <v-flex d-flex xs3 sm3 md3>
-            <v-card row wrap flat color="red lighten-1">
-                                
+                <v-flex   v-if="this.$store.state.currentDataset.process>=3" d-flex xs3 sm3 md3>
+            <v-card row wrap flat color="red lighten-1">        
                 <v-flex >
-                  <v-text-field v-model="editedPatient.libDate" label="Library date"></v-text-field>
+                  <v-text-field  v-if="this.$store.state.currentDataset.process>=3" v-model="this.$store.state.currentDataset.libraryDatum" label="Library date"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.libVisum" label="Library Visum"></v-text-field>
+                  <v-text-field  v-if="this.$store.state.currentDataset.process>=3" v-model="this.$store.state.currentDataset.libraryVisum" label="Library Visum"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.seqDate" label="Sequenzierungs Datum"></v-text-field>
+                  <v-text-field  v-if="this.$store.state.currentDataset.process>=3" v-model="this.$store.state.currentDataset.seqDatum" label="Sequenzierungs Datum"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.ngsMachine" label="NGS Maschine"></v-text-field>
+                  <v-text-field  v-if="this.$store.state.currentDataset.process>=3" v-model="this.$store.state.currentDataset.modalität" label="NGS Maschine"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.qualityVisum" label="Qualitäts Visum"></v-text-field>
+                  <v-text-field  v-if="this.$store.state.currentDataset.process>=4" v-model="this.$store.state.currentDataset.datenqualVisum" label="Qualitäts Visum"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.infOldList" label="Information Alteliste"></v-text-field>
+                  <v-text-field  v-if="this.$store.state.currentDataset.process>=3" v-model="this.$store.state.currentDataset.infOldList" label="Information Alteliste"></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
                 <v-flex >
-                  <v-text-field v-model="editedPatient.pubID" label="Public ID*" required></v-text-field>
+                  <v-text-field  v-if="this.$store.state.currentDataset.process>=4" v-model="this.$store.state.currentDataset.publicIdentifier" label="Public ID*" required></v-text-field>
                 </v-flex>
-                                <v-spacer></v-spacer>
-
+                <v-spacer></v-spacer>
             </v-card>
                 </v-flex>
               </v-layout>
@@ -171,108 +139,18 @@
 </template>
 
 <script>
-  import {bus} from '../main.js'    
- // import axios from 'axios'
-
-
 export default{
-
-     created () {
-
-    },
     data:() =>({
-        patId:'',
+
         editedIndex: -1,
-        dialog: false,
-        editedPatient: {
-        bactNr: '',
-        wiederholung:'',
-        infOldList: '',
-        altId: '',
-        priority:'',
-        pathogen: '',
-        lastName: '',
-        firstName:'',
-        birthdate: '',
-        entry: '',
-        abnahme: '',
-        sender: '',
-        station: '',
-        editing: '',
-        material: '',
-        ngsProject: '',
-        dnaPrepDate: '',
-        dnaKonz: '',
-        dnaVisum: '',
-        runNr: '',
-        ngsNr: '',
-        libType: '',
-        libDate: '',
-        libVisum: '',
-        seqDate: '',
-        ngsMachine: '',
-        qualityVisum: '',
-        pubID: '',
-      },
-      
     }),
     methods:{
       onSubmit(){
-        /*
-        axios.post('http://147.87.118.201:3000/api/TblPatients', newPatient)
-          .then(ack1 =>{
-            axios.get('http://147.87.118.201:3000/api/TblPatients/findOne?filter={"where":{"and":[{"firstName":"'+this.editedPatient.firstName+'"},{"lastName":"'+this.editedPatient.lastName+'"}]}}')
-            .then(res1 => {
-              console.log(res1)
-              this.patId = res1.data.patientId;
-              const newProbe ={
-                patientId: this.patId,
-                einsender: this.editedPatient.sender,
-                station: this.editedPatient.station,
-                eingangDatum: this.editedPatient.entry,
-                material: this.editedPatient.material
-              } 
-            axios.post('http://147.87.118.201:3000/api/TblProbeEingangs', newProbe)
-                .then(ack2 =>{
-                  axios.get('http://147.87.118.201:3000/api/TblProbeEingangs/findOne?filter={"where":{"patientId":"'+this.patId+'"}}')
-                  .then(res2 =>{
-                    console.log(res2)
-                    const newNgs ={
-                      probeId:res2.data.probeId,
-                      bactNr: this.editedPatient.bactNr,
-                      wiederholung: this.editedPatient.wiederholung,
-                      pathogenId: this.editedPatient.pathogen,
-                      publicIdentifier: this.editedPatient.pubID,
-                      priority: this.editedPatient.priority
-                    } 
-                    axios.post('http://147.87.118.201:3000/api/TblNgs', newNgs)
-                    .then(ack3=>{
-                      console.log(ack3)
-                    })
-                  })
-                })
-            })
-          })
-          .catch(error => console.log(error))
-          
-        this.close();
-        this.save();
-        */
         },
       
       // else statement = wen neuer Pat, if = editedPat. hier muss index und Pat übergeben werden.
       save () {
-        if (this.editedIndex > -1) {
-          bus.$emit('patientHasChanged',this.editedPatient)
-
-         // Object.assign(this.patients[this.editedIndex], this.editedPatient)
-        } else {
-          bus.$emit('newPatientCreated',this.editedPatient)
-
-         // this.patients.push(this.editedPatient)
-        }
-        this.close()
       }
-    }
+    },
 }
 </script>
